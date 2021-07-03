@@ -1,0 +1,9 @@
+.regions {
+    display: inline-block;
+    width: 50%;
+}
+
+.region-details {
+    display: inline-block;
+    width: 50%;
+}
