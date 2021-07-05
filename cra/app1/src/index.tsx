@@ -2,16 +2,34 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+declare global {
+  interface Window {
+    renderApp1: (containerId: string) => void;
+    unmountApp1: (containerId: string) => void;
+  }
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+window.renderApp1 = (containerId: string) => {
+  console.log(containerId);
+  ReactDOM.render(
+    <App />,
+    document.getElementById(containerId),
+  );
+}
+
+window.unmountApp1 = (containerId: string) => {
+  const elem = document.getElementById(containerId);
+  if (elem) {
+    ReactDOM.unmountComponentAtNode(elem);
+  }
+}
+
+if (!document.getElementById("App2-container")) {
+  ReactDOM.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+}

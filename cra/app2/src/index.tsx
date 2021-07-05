@@ -2,16 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {BrowserHistory} from "history";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+declare global {
+  interface Window {
+    renderApp2: (containerId: string, history: BrowserHistory) => void;
+    unmountApp2: (containerId: string) => void;
+  }
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+window.renderApp2 = (containerId: string, history: BrowserHistory) => {
+  console.log(containerId);
+  ReactDOM.render(
+    <App history={history} />,
+    document.getElementById(containerId),
+  );
+}
+
+window.unmountApp2 = (containerId: string) => {
+  const elem = document.getElementById(containerId);
+  if (elem) {
+    ReactDOM.unmountComponentAtNode(elem);
+  }
+}
+
+if (!document.getElementById("App2-container")) {
+  ReactDOM.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+}

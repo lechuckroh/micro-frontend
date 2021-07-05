@@ -1,23 +1,17 @@
-import { BrowserHistory, createBrowserHistory } from "history";
-import React, { useState } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import {BrowserHistory, createBrowserHistory} from "history";
+import React from "react";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import "./App.css";
 import MicroFrontend from "./MicroFrontend";
 
 const defaultHistory = createBrowserHistory();
 
-const {
-  REACT_APP_APP1_HOST: host1,
-  REACT_APP_APP2_HOST: host2,
-} = process.env;
-
-// ---------------------------------------------------------------------------
-
 interface App1Props {
   history: BrowserHistory;
 }
+
 function App1(props: App1Props) {
-  return <MicroFrontend history={props.history} host={host1} name="App1"></MicroFrontend>
+  return <MicroFrontend history={props.history} host={process.env.REACT_APP_APP1_HOST} name="App1"/>
 }
 
 // ---------------------------------------------------------------------------
@@ -25,8 +19,9 @@ function App1(props: App1Props) {
 interface App2Props {
   history: BrowserHistory;
 }
+
 function App2(props: App2Props) {
-  return <MicroFrontend history={props.history} host={host2} name="App2"></MicroFrontend>
+  return <MicroFrontend history={props.history} host={process.env.REACT_APP_APP2_HOST} name="App2"/>
 }
 
 // ---------------------------------------------------------------------------
@@ -38,20 +33,24 @@ interface HomeProps {
 function Home(props: HomeProps) {
   return (
     <div>
-      <div className="regions">Regions</div>
-      <div className="region-details">Region Details</div>
+      <div className="regions">
+        <App1 history={props.history}/>
+      </div>
+      <div className="region-details">
+        <App2 history={props.history}/>
+      </div>
     </div>
   );
 }
 
 // ---------------------------------------------------------------------------
 
-function App({ history = defaultHistory }) {
+function App({history = defaultHistory}) {
   return (
     <BrowserRouter>
       <React.Fragment>
         <Switch>
-          <Route exact path="/" render={() => <Home history={history} />} />
+          <Route exact path="/" render={() => <Home history={history}/>}/>
         </Switch>
       </React.Fragment>
     </BrowserRouter>
