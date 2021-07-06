@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "./App.css";
+import {BrowserHistory, createBrowserHistory} from "history";
 
 // -----------------------------------------------------------------
 
 interface RegionsProps {
   id: string;
   regions: string[];
+  history: BrowserHistory;
 }
 
 function Regions(props: RegionsProps) {
   const options = [
-    { value: "", text: "Select region.." },
-    ...props.regions.map((region) => ({ value: region, text: region })),
+    {value: "", text: "Select region.."},
+    ...props.regions.map((region) => ({value: region, text: region})),
   ];
 
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(`changed to ${event.target.value}`);
+    const selected = event.target.value;
+    props.history.push(`/region/${selected.toLocaleLowerCase()}`);
   };
 
   return (
@@ -31,14 +34,16 @@ function Regions(props: RegionsProps) {
 
 // -----------------------------------------------------------------
 
-function App() {
+const defaultHistory = createBrowserHistory();
+
+function App({history = defaultHistory}) {
   const [regions, setRegions] = useState<string[] | null>(null);
 
   const fetchRegions = () => {
     setRegions(null);
     setTimeout(() => {
       setRegions(["Korea", "US"]);
-    }, 2000);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -54,7 +59,7 @@ function App() {
         <button onClick={() => fetchRegions()}>Refresh</button>
       </div>
       {regions ? (
-        <Regions id="regions" regions={regions} />
+        <Regions id="regions" regions={regions} history={history}/>
       ) : (
         <div>Loading..</div>
       )}

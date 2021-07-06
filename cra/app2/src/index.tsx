@@ -12,7 +12,6 @@ declare global {
 }
 
 window.renderApp2 = (containerId: string, history: BrowserHistory) => {
-  console.log(containerId);
   ReactDOM.render(
     <App history={history} />,
     document.getElementById(containerId),

@@ -8,8 +8,7 @@ function MicroFrontend({ name, host, history }) {
       const funcName = `render${name}`;
       const containerId = `${name}-container`;
       const func = window[funcName];
-      console.log(funcName, func, containerId);
-      window[funcName](containerId, history);
+      func(containerId, history);
     };
 
     if (document.getElementById(scriptId)) {

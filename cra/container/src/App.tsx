@@ -50,7 +50,7 @@ function App({history = defaultHistory}) {
     <BrowserRouter>
       <React.Fragment>
         <Switch>
-          <Route exact path="/" render={() => <Home history={history}/>}/>
+          <Route path="/" render={() => <Home history={history}/>}/>
         </Switch>
       </React.Fragment>
     </BrowserRouter>

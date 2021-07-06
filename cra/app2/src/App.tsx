@@ -8,14 +8,15 @@ import US from "./region/US";
 const defaultHistory = createBrowserHistory();
 
 function App({ history = defaultHistory }) {
+  console.log(history);
   return (
     <Router history={history}>
       <Switch>
         <Route exact path="/">
           <div>Home</div>
         </Route>
-        <Route exact path="/region/korea" component={Korea} />
-        <Route exact path="/region/us" component={US} />
+        <Route path="/region/korea" component={Korea} />
+        <Route path="/region/us" component={US} />
         <Route>404 Not Found</Route>
       </Switch>
     </Router>

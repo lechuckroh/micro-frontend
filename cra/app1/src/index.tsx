@@ -2,18 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import {BrowserHistory} from "history";
 
 declare global {
   interface Window {
-    renderApp1: (containerId: string) => void;
+    renderApp1: (containerId: string, history: BrowserHistory) => void;
     unmountApp1: (containerId: string) => void;
   }
 }
 
-window.renderApp1 = (containerId: string) => {
-  console.log(containerId);
+window.renderApp1 = (containerId: string, history: BrowserHistory) => {
   ReactDOM.render(
-    <App />,
+    <App history={history}/>,
     document.getElementById(containerId),
   );
 }
@@ -28,7 +28,7 @@ window.unmountApp1 = (containerId: string) => {
 if (!document.getElementById("App2-container")) {
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <App/>
     </React.StrictMode>,
     document.getElementById('root')
   );
