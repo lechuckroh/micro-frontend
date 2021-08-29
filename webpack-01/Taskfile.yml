@@ -1,0 +1,65 @@
+version: "3"
+
+output: prefixed
+
+tasks:
+  install-cart:
+    dir: cart
+    cmds: 
+      - yarn install
+
+  install-container:
+    dir: container
+    cmds:
+      - yarn install
+
+  install-products:
+    dir: products
+    cmds: 
+      - yarn install
+
+  install:
+    deps: [install-cart, install-container, install-products]
+    
+  start-cart:
+    prefix: cart
+    dir: cart
+    cmds: 
+      - yarn start
+
+  start-container:
+    prefix: container
+    dir: container
+    cmds: 
+      - yarn start
+
+  start-products:
+    prefix: products
+    dir: products
+    cmds:
+      - yarn start
+
+  start:
+    deps: [start-cart, start-container, start-products]
+
+  build-cart:
+    prefix: cart
+    dir: cart
+    cmds:
+      - yarn build
+
+  build-container:
+    prefix: container
+    dir: container
+    cmds:
+      - yarn build
+
+  build-products:
+    prefix: products
+    dir: products
+    cmds:
+      - yarn build
+
+  build:
+    deps: [build-cart, build-container, build-products]
+
