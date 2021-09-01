@@ -28,7 +28,8 @@ http://localhost:8080 으로 접속해서 제품 목록과 카트가 제대로 �
 ## Products 프로젝트
 
 * products 프로젝트는 단독으로도 사용 가능하며, container 프로젝트에서 런타임에 로드해서 사용할 수도 있다.
-* `src/index.js` 파일에서 `faker` 라이브러리를 사용해 랜덤으로 제품명을 표시한다.
+* `src/index.js` 파일에서 `import('./boostrap)`을 실행하며, `src/bootstrap.js` 파일에서 `faker` 라이브러리를 사용해 랜덤으로 제품명을 표시한다.
+    * 로직을 `index.js` 파일에 바로 구현하게 되면, 프로젝트 단독 실행시 공유된 디펜던시를 로드하지 못하고 에러가 발생한다.
 * `public/index.html` 파일은 로컬 개발 서버 실행시에만 필요하며, 배포시에는 container 프로젝트에서 js 파일만 로드하기 때문에 필요없다.
 
 ### ModuleFederationPlugin
@@ -46,6 +47,7 @@ module.exports = {
       exposes: {
         './ProductsIndex': './src/index',
       },
+      shared: ['faker'],
     }),
     // ...
   ],
@@ -56,6 +58,11 @@ module.exports = {
 * `filename`: mainfest 파일명. 특별한 이유가 없다면 `remoteEntry.js` 을 사용하는 것이 좋다.
 * `exposes`: 외부로 노출할 소스 파일들의 이름을 매핑한다. 여기서 매핑하지 않은 소스 파일은 container 프로젝트에서 로드할 수 없다.
     * container 프로젝트에서 `./src/index` 파일을 로드하려면 `./ProductsIndex`라는 경로를 import 해야 한다.
+* `shared`: 다른 프로젝트에서 동일한 라이브러리를 사용하는 경우, 라이브러리가 중복 로딩되는 문제를 방직하기 위해 공유할 라이브러리를 지정한다.
+    * `package.json` 파일에 지정된 버전을 기준으로 하며, 버전이 호환되지 않는 경우에는 따로 로드하게 된다.
+    * 예를 들어, 두 프로젝트에서 `^5.0.0`, `^5.6.0` 버전을 사용하는 경우에는 메이저 버전이 `5`인 라이브러리를 공유해서 로딩한다.
+    * `^4.6.0`, `^5.0.0` 버전을 사용하는 경우에는 메이저 버전이 다르기 때문에 각 버전을 따로 로딩한다.
+    * `5.0.0`, `5.6.0` 과 같이 특정 버전을 로딩하도록 설정한 경우, 버전이 호환되지 않는다는 에러 메시지를 콘솔창에 출력하면서 하나의 버전만 로딩한다.
 
 ## Cart 프로젝트
 
@@ -123,8 +130,13 @@ cart, products 모듈 데이터를 표시할 DOM 객체가 필요하다.
 <!DOCTYPE html>
 <html>
   <body>
-    <div id="dev-products"></div>
-    <div id="dev-cart"></div>
+    <div id="products-holder"></div>
+    <div id="cart-holder"></div>
   </body>
 </html>
 ```
+
+> DOM 객체의 `id`는 위에서 사용한 모듈명과 다른 이름을 사용해야 한다.
+> 만일 같은 이름을 사용하는 경우 `TypeError: fn is not a function` 에러가 발생하는 것을 볼 수 있다.
+>
+> [관련 이슈](https://github.com/module-federation/module-federation-examples/issues/322)

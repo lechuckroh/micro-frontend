@@ -1,4 +1,1 @@
-import faker from 'faker';
-
-const html = `<div>You have ${faker.random.number()} items in your cart</div`;
-document.querySelector('#dev-cart').innerHTML = html;
+import('./bootstrap');
