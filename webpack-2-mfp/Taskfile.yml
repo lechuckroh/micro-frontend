@@ -1,0 +1,81 @@
+version: "3"
+
+output: prefixed
+
+tasks:
+  install-auth:
+    dir: auth
+    cmds: 
+      - yarn install
+
+  install-container:
+    dir: container
+    cmds:
+      - yarn install
+
+  install-dashboard:
+    dir: dashboard
+    cmds: 
+      - yarn install
+
+  install-marketing:
+    dir: marketing
+    cmds: 
+      - yarn install
+
+  install:
+    deps: [install-auth, install-container, install-dashboard, install-marketing]
+    
+  start-auth:
+    prefix: auth
+    dir: auth
+    cmds: 
+      - yarn start
+
+  start-container:
+    prefix: container
+    dir: container
+    cmds: 
+      - yarn start
+
+  start-dashboard:
+    prefix: dashboard
+    dir: dashboard
+    cmds:
+      - yarn start
+
+  start-marketing:
+    prefix: marketing
+    dir: marketing
+    cmds:
+      - yarn start
+
+  start:
+    deps: [start-auth, start-container, start-dashboard, start-marketing]
+
+  build-auth:
+    prefix: auth
+    dir: auth
+    cmds:
+      - yarn build
+
+  build-container:
+    prefix: container
+    dir: container
+    cmds:
+      - yarn build
+
+  build-dashboard:
+    prefix: dashboard
+    dir: dashboard
+    cmds:
+      - yarn build
+
+  build-marketing:
+    prefix: marketing
+    dir: marketing
+    cmds:
+      - yarn build
+
+  build:
+    deps: [build-auth, build-container, build-dashboard, build-marketing]
