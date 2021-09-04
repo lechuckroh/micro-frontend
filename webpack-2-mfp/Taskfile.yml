@@ -24,7 +24,11 @@ tasks:
       - yarn install
 
   install:
-    deps: [install-auth, install-container, install-dashboard, install-marketing]
+    cmds:
+      - task: install-auth
+      - task: install-container
+      - task: install-dashboard
+      - task: install-marketing
     
   start-auth:
     prefix: auth

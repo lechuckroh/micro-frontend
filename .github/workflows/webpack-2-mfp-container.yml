@@ -1,0 +1,23 @@
+name: build-mfp-container
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'webpack-2-mfp/container/**'
+
+defaults:
+  run:
+    working-directory: webpack-2-mfp/container
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn install
+      - run: yarn build
+        env:
+          PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
