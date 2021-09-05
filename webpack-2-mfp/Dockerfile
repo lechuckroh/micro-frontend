@@ -19,7 +19,7 @@ RUN yarn build
 
 FROM base AS build-marketing
 
-COPY marketing /usr/src/myapp/
+COPY marketing /usr/src/myapp
 WORKDIR /usr/src/myapp
 RUN yarn install
 RUN yarn build
