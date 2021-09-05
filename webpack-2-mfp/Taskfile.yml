@@ -1,6 +1,8 @@
 version: "3"
 
-output: prefixed
+vars:
+  CONTAINER_NAME: webpack-2-mfp
+  DOCKER_IMAGE: webpack-2-mfp
 
 tasks:
   install-auth:
@@ -54,9 +56,6 @@ tasks:
     cmds:
       - yarn start
 
-  start:
-    deps: [start-auth, start-container, start-dashboard, start-marketing]
-
   build-auth:
     prefix: auth
     dir: auth
@@ -83,3 +82,15 @@ tasks:
 
   build:
     deps: [build-auth, build-container, build-dashboard, build-marketing]
+
+  docker-build-image:
+    cmds:
+      - docker build -t {{.DOCKER_IMAGE}} .
+  
+  docker-run:
+    cmds:
+      - docker run --rm -d -p 8000:80 --name {{.CONTAINER_NAME}} {{.DOCKER_IMAGE}}
+
+  docker-stop:
+    cmds:
+      - docker stop {{.CONTAINER_NAME}}
