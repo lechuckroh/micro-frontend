@@ -75,12 +75,14 @@ $ task install
 $ task start-container
 $ task start-marketing
 $ task start-auth
+$ task start-dashboard
 ```
 
 접속 주소:
 * Container: `http://localhost:8080`
 * Marketing: `http://localhost:8081`
 * Auth: `http://localhost:8082`
+* Dashboard: `http://localhost:8083`
 
 
 ### production
