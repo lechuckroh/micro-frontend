@@ -69,11 +69,13 @@ $ task install
 # 개발 서버 실행
 $ task start-container
 $ task start-marketing
+$ task start-auth
 ```
 
 접속 주소:
 * Container: `http://localhost:8080`
 * Marketing: `http://localhost:8081`
+* Auth: `http://localhost:8082`
 
 
 ### production
@@ -83,7 +85,10 @@ $ task start-marketing
 $ task docker-build-image
 
 # 도커 컨테이너 실행
-$ task docker-run-image
+$ task docker-run
+
+# 도커 컨테이너 중단
+$ task docker-stop
 ```
 
 도커 컨테이너는 `http://localhost:8000/container/index.html` 로 접속한다.
