@@ -1,0 +1,23 @@
+name: build-mfp-marketing
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'webpack-2-mfp/marketing/**'
+
+defaults:
+  run:
+    working-directory: webpack-2-mfp/marketing
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn install
+      - run: yarn build
+        env:
+          PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
